@@ -1,0 +1,12 @@
+sourceSets {
+  integTest {
+    kotlin.srcDir file('src/integTest/kotlin')
+    resources.srcDir file('src/integTest/resources')
+  }
+  main.java.srcDirs += 'src/main/kotlin'
+}
+
+task integTest(type: Test) {
+  testClassesDir = sourceSets.integTest.output.classesDir
+  classpath = sourceSets.integTest.runtimeClasspath
+}

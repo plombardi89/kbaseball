@@ -1,5 +1,6 @@
 package com.github.plombardi89.kbaseball.player
 
+import com.github.plombardi89.kbaseball.model.Sex
 import java.util.*
 
 
@@ -14,28 +15,35 @@ class PersonNameGenerator(
   /**
    * Retrieves the next person's name without concern for gender of the forename.
    */
-  fun nextName(): String {
+  fun nextFullName(): String {
     return nextForename() + " " + nextSurname()
+  }
+
+  /**
+   * Retrieves the next person's name with respect for a specific sex of the forename.
+   */
+  fun nextFullName(sex: Sex): String {
+    return if (sex == Sex.MALE) nextMaleForename() else nextFemaleForename() + " " + nextSurname()
   }
 
   /**
    * Retrieves the next person's forename without concern for gender.
    */
   fun nextForename(): String {
-    return if (random.nextBoolean()) nextMaleName() else nextFemaleName()
+    return if (random.nextBoolean()) nextMaleForename() else nextFemaleForename()
   }
 
   /**
    * Retrieves the next male name.
    */
-  fun nextMaleName(): String {
+  fun nextMaleForename(): String {
     return maleNames.random()
   }
 
   /**
    * Retrieves the next female name.
    */
-  fun nextFemaleName(): String {
+  fun nextFemaleForename(): String {
     return femaleNames.random()
   }
 
