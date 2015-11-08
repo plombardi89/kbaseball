@@ -1,0 +1,10 @@
+---
+# file: dev.yml
+
+- hosts: all
+  sudo: yes
+  vars_files:
+    - roles/postgresql-el/defaults/repositories.yml
+  roles:
+    - essential
+    - postgresql-el

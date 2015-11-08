@@ -1,0 +1,12 @@
+---
+# file: roles/essential/tasks/main.yml
+
+- name: ensure firewalld is running
+  service:
+    name: firewalld
+    enabled: yes
+    state: started
+  tags:
+    - firewall
+
+- include: docker.yml

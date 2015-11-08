@@ -1,0 +1,5 @@
+---
+# file: roles/essential/defaults/main.yml
+
+docker_users:
+  - vagrant
