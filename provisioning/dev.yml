@@ -7,4 +7,24 @@
     - roles/postgresql-el/defaults/repositories.yml
   roles:
     - essential
-    - postgresql-el
+    - role: postgresql-el
+      pgsql_listen_addresses:
+        - 0.0.0.0
+      pgsql_pg_hba_custom:
+        - type: host
+          database: all
+          role: all
+          address: "0.0.0.0/0"
+          method: "{{ pgsql_default_ipv4_auth_method }}"
+          comment: 'IPv4 any connections:'
+      pgsql_databases:
+        - name: kbaseball_dev
+          owner: kbaseball
+          collate: en_US.UTF-8
+          ctype: en_US.UTF-8
+          encoding: UTF8
+          template: template0
+      pgsql_users:
+        - username: kbaseball
+          password: kbaseball
+          flags: [SUPERUSER]

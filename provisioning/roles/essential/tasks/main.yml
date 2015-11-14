@@ -9,4 +9,13 @@
   tags:
     - firewall
 
+- name: ensure postgresql server is available
+  firewalld:
+    immediate: yes
+    permanent: yes
+    service: postgresql
+    state: enabled
+  tags:
+    - firewall
+
 - include: docker.yml
