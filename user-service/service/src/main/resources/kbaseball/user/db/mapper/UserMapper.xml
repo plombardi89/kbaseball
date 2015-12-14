@@ -32,10 +32,6 @@
       from users where id = #{id}
     </select>
 
-    <select id="getPendingUserByEmailAndActivationToken" resultType="kbaseball.user.model.PendingUser">
-        select * from users where email = #{email} and activation_token = #{token}
-    </select>
-
     <select id="getUserByUsername" resultMap="userResultMap">
         select
             id
