@@ -1,0 +1,74 @@
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+
+version = "1.0"
+
+mainClassName = 'kbaseball.user.UserApplication'
+
+ext {
+  commonsEmailVersion = '1.4'
+  dropwizardVersion = '0.9.1'
+  kotlinVersion = '1.0.0-beta-3595'
+  springSecurityCoreVersion = '4.0.3.RELEASE'
+  passayVersion = '1.1.0'
+  dropwizardMybatisVersion = '1.0.0-beta1'
+  postgresqlJdbcDriverVersion = '9.4-1205-jdbc42'
+  mustacheJavaVersion = '0.9.1'
+}
+
+sourceSets {
+  integTest {
+    kotlin.srcDir file('src/integTest/kotlin')
+    java.srcDir file('src/integTest/java')
+    resources.srcDir file('src/integTest/resources')
+  }
+}
+
+task integTest(type: Test) {
+  testClassesDir = sourceSets.integTest.output.classesDir
+  classpath = sourceSets.integTest.runtimeClasspath
+}
+
+check.dependsOn integTest
+
+repositories {
+  maven {
+    url "https://jitpack.io"
+  }
+}
+
+dependencies {
+  compile(
+      'com.github.javaplugs:mybatis-java-time:0.1',
+      "com.github.spullara.mustache.java:compiler:${mustacheJavaVersion}",
+      "com.loginbox.mybatis:dropwizard-mybatis:${dropwizardMybatisVersion}",
+
+      "io.dropwizard:dropwizard-core:${dropwizardVersion}",
+      "io.dropwizard:dropwizard-jdbi:${dropwizardVersion}",
+      "io.dropwizard:dropwizard-migrations:${dropwizardVersion}",
+
+      "org.apache.commons:commons-email:${commonsEmailVersion}",
+      "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}",
+      "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+      "org.passay:passay:${passayVersion}",
+      "org.postgresql:postgresql:${postgresqlJdbcDriverVersion}",
+      "org.springframework.security:spring-security-core:${springSecurityCoreVersion}",
+
+      project(":user-service:api"),
+      project(":common")
+  )
+
+  testCompile("io.dropwizard:dropwizard-client:${dropwizardVersion}")
+  testCompile("io.dropwizard:dropwizard-testing:${dropwizardVersion}") {
+    exclude group: "org.glassfish.jersey.test-framework.providers"
+  }
+
+  testCompile("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17")
+
+  integTestCompile sourceSets.main.output
+  integTestCompile configurations.testCompile
+  integTestCompile sourceSets.test.output
+  integTestRuntime configurations.testRuntime
+}

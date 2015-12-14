@@ -1,0 +1,16 @@
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+
+ext {
+  dropwizardVersion = '0.9.1'
+  kotlinVersion = '1.0.0-beta-1103'
+}
+
+dependencies {
+  compile(
+      "io.dropwizard:dropwizard-core:${dropwizardVersion}",
+
+      "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+      "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}",
+  )
+}

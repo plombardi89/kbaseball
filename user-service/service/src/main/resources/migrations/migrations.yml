@@ -1,0 +1,76 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 1
+      author: plombardi
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(256)
+                  constraints:
+                    unique: true
+              - column:
+                  name: creation_time
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: activation_token
+                  type: UUID
+              - column:
+                  name: activation_time
+                  type: datetime
+              - column:
+                  name: banished
+                  type: boolean
+              - column:
+                  name: banishment_time
+                  type: datetime
+              - column:
+                  name: banishment_length
+                  type: int
+        - createIndex:
+              columns:
+              - column:
+                  name: username
+                  computed: lower(username)
+                  type: varchar(50)
+              indexName: idx_username
+              tableName: users
+              unique: true
+        - createIndex:
+              columns:
+              - column:
+                  name: email
+                  type: varchar(256)
+              indexName: idx_email
+              tableName: users
+              unique: true
+        - createIndex:
+            columns:
+              - column:
+                  name: activation_token
+                  type: UUID
+            indexName: idx_activation_token
+            tableName: users
+            unique: true

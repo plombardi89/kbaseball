@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kbaseball.user.db.mapper.UserMapper">
+    <resultMap id="userResultMap" type="kbaseball.user.model.User">
+        <constructor>
+            <idArg column="id" javaType="_int" />
+            <arg column="username" javaType="String" />
+            <arg column="password" javaType="String" />
+            <arg column="email" javaType="String" />
+            <arg column="creation_time" javaType="java.time.OffsetDateTime" />
+            <arg column="activation_time" javaType="java.time.OffsetDateTime" />
+            <arg column="banished" javaType="_boolean" />
+            <arg column="banishment_time" javaType="java.time.OffsetDateTime" />
+            <arg column="banishment_length" javaType="_long" />
+        </constructor>
+    </resultMap>
+
+    <select id="getUserById" resultType="kbaseball.user.model.User">
+      select
+          id
+          , username
+          , password
+          , email
+          , creation_time
+          , activation_time
+          , banished
+          , banishment_time
+          , banishment_length
+      from users where id = #{id}
+    </select>
+
+    <select id="getPendingUserByEmailAndActivationToken" resultType="kbaseball.user.model.PendingUser">
+        select * from users where email = #{email} and activation_token = #{token}
+    </select>
+
+    <select id="getUserByUsername" resultMap="userResultMap">
+        select
+            id
+            , username
+            , password
+            , email
+            , creation_time
+            , activation_time
+            , banished
+            , banishment_time
+            , banishment_length
+        from users where username = #{username}
+    </select>
+
+    <select id="getUserByUsernameOrEmail" resultMap="userResultMap">
+        <![CDATA[
+        select
+            id
+            , username
+            , password
+            , email
+            , creation_time
+            , activation_time
+            , banished
+            , banishment_time
+            , banishment_length
+        from users where username = #{username} or email = #{email};
+        ]]>
+    </select>
+
+    <select id="getUserByEmail" resultType="kbaseball.user.model.User">
+        select * from users where email = #{email}
+    </select>
+
+    <select id="getUsers" resultMap="userResultMap">
+        select
+            id
+            , username
+            , password
+            , email
+            , creation_time
+            , activation_time
+            , banished
+            , banishment_time
+            , banishment_length
+        from users
+    </select>
+
+    <delete id="deleteUserById" timeout="20">
+        delete from users where id = #{id}
+    </delete>
+
+    <delete id="deleteUserByUsername" timeout="20">
+        delete from users where username = #{username}
+    </delete>
+
+    <insert id="createUser" useGeneratedKeys="true" keyColumn="id">
+        <![CDATA[
+insert into users(
+    username
+    , "password"
+    , email
+    , creation_time
+    , activation_token
+    , activation_time
+    , banished
+    , banishment_time
+    , banishment_length
+)
+values(
+    #{username}
+    , #{password}
+    , #{email}
+    , #{creationTime}
+    , #{activationCode}
+    , NULL
+    , false
+    , NULL
+    , 0
+);
+        ]]>
+    </insert>
+
+    <update id="activateUser">
+        <![CDATA[
+update users
+    set
+        activation_token = NULL,
+        activation_time = current_timestamp
+    where
+        email = #{email}
+        and activation_token = #{token}
+        ]]>
+    </update>
+</mapper>
