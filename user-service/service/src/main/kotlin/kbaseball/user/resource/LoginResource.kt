@@ -23,7 +23,7 @@ import com.github.toastshaman.dropwizard.auth.jwt.model.JsonWebTokenClaim
 import com.github.toastshaman.dropwizard.auth.jwt.model.JsonWebTokenHeader
 import kbaseball.service.auth.AuthenticationFailure
 import kbaseball.service.auth.UserCredential
-import kbaseball.user.db.mapper.UserMapper
+import kbaseball.user.db.UserMapper
 import org.apache.ibatis.session.SqlSession
 import org.joda.time.DateTime
 import org.springframework.security.crypto.bcrypt.BCrypt

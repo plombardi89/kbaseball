@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package kbaseball.user
 
-import com.github.javaplugs.mybatis.InstantHandler
 import com.github.toastshaman.dropwizard.auth.jwt.hmac.HmacSHA512Signer
 import com.github.toastshaman.dropwizard.auth.jwt.model.JsonWebTokenHeader
 import com.loginbox.dropwizard.mybatis.MybatisBundle
@@ -34,7 +33,6 @@ import kbaseball.user.resource.LoginResource
 import kbaseball.user.resource.UserResource
 import org.apache.ibatis.session.Configuration
 import org.passay.*
-import java.time.Instant
 
 
 class UserApplication : Application<UserApplicationConfiguration>() {

@@ -19,7 +19,7 @@ package kbaseball.user.resource
 
 import kbaseball.email.EmailContentTemplate
 import kbaseball.email.Emailer
-import kbaseball.user.db.mapper.UserMapper
+import kbaseball.user.db.UserMapper
 import kbaseball.user.exception.InvalidPassword
 import kbaseball.user.model.*
 import org.apache.ibatis.session.SqlSession
